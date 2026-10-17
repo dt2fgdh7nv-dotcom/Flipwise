@@ -1,0 +1,735 @@
+{
+  "common": {
+    "appName": "FlipWise",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "remove": "Remove",
+    "add": "Add",
+    "back": "Back",
+    "create": "Create",
+    "signOut": "Sign out",
+    "source": "Source",
+    "sourceAndDate": "Source: {source} · {date}",
+    "validFrom": "Valid from",
+    "updated": "Updated",
+    "optional": "optional",
+    "yes": "Yes",
+    "no": "No",
+    "unknown": "Unknown",
+    "notSet": "Not set",
+    "perMonth": "/ month",
+    "months": "{count, plural, one {# month} other {# months}}",
+    "viewAll": "View all",
+    "comingInPhase": "Coming in phase {phase}",
+    "readOnly": "Read-only",
+    "demoData": "Demo data (fictional)",
+    "discard": "Discard"
+  },
+  "disclaimer": {
+    "short": "Estimates only — verify with a tax advisor, isännöitsijä, and licensed professionals.",
+    "long": "All figures are estimates based on your inputs and editable configuration. They are not financial, tax or legal advice and are not guarantees of any outcome. Verify tax treatment with a tax advisor, housing-company matters with the isännöitsijä (property manager), and technical work with licensed professionals."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "costDatabase": "Cost database",
+    "contractors": "Contractors",
+    "settings": "Settings",
+    "admin": "Platform admin",
+    "portal": "Shared with me",
+    "workspace": "Workspace",
+    "menu": "Menu"
+  },
+  "status": {
+    "lead": "Lead",
+    "analyzing": "Analyzing",
+    "offer_made": "Offer made",
+    "purchased": "Purchased",
+    "renovating": "Renovating",
+    "listed": "Listed",
+    "sold": "Sold"
+  },
+  "buildingType": {
+    "apartment": "Apartment (kerrostalo)",
+    "rowhouse": "Rowhouse (rivitalo)",
+    "semi_detached": "Semi-detached (paritalo)"
+  },
+  "buildingTypeShort": {
+    "apartment": "Apartment",
+    "rowhouse": "Rowhouse",
+    "semi_detached": "Semi-detached"
+  },
+  "ownershipForm": {
+    "housing_company_share": "Housing company shares (asunto-osake)",
+    "real_estate": "Real estate (kiinteistö)"
+  },
+  "condition": {
+    "good": "Good (hyvä)",
+    "satisfactory": "Satisfactory (tyydyttävä)",
+    "fair": "Fair (välttävä)",
+    "poor": "Poor (huono)"
+  },
+  "plotType": {
+    "owned": "Owned plot (oma tontti)",
+    "leased": "Leased plot (vuokratontti)",
+    "unknown": "Unknown"
+  },
+  "taxProfile": {
+    "company": "Limited company (Oy) — corporate tax",
+    "individual": "Individual — capital income tax"
+  },
+  "maintenanceKind": {
+    "pipe_renovation": "Pipe renovation (putkiremontti)",
+    "facade": "Facade renovation (julkisivuremontti)",
+    "roof": "Roof renovation (kattoremontti)",
+    "windows": "Windows",
+    "balconies": "Balconies",
+    "elevator": "Elevator",
+    "electrical": "Electrical",
+    "drainage": "Drainage",
+    "yard": "Yard",
+    "other": "Other"
+  },
+  "maintenanceStatus": {
+    "planned": "Planned in PTS",
+    "decided": "Decided by AGM",
+    "in_progress": "In progress",
+    "done": "Done"
+  },
+  "scenario": {
+    "best": "Best case",
+    "expected": "Expected",
+    "worst": "Worst case"
+  },
+  "severity": {
+    "high": "High",
+    "medium": "Medium",
+    "info": "Info"
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "member": "Member",
+    "viewer": "Client — view only",
+    "commenter": "Client — can comment"
+  },
+  "glossary": {
+    "taloyhtio": {
+      "term": "taloyhtiö",
+      "explanation": "Housing company (asunto-osakeyhtiö). Owns the building; you buy shares that give the right to occupy an apartment."
+    },
+    "asuntoOsake": {
+      "term": "asunto-osake",
+      "explanation": "Housing company shares. Most Finnish apartments and many rowhouses are sold as shares, not real estate."
+    },
+    "kiinteisto": {
+      "term": "kiinteistö",
+      "explanation": "Real estate — land and building owned directly. Transfer tax is higher than for shares."
+    },
+    "hoitovastike": {
+      "term": "hoitovastike",
+      "explanation": "Monthly maintenance fee paid to the housing company for running costs."
+    },
+    "rahoitusvastike": {
+      "term": "rahoitusvastike",
+      "explanation": "Monthly financing fee that pays down the housing company's loans (e.g. for a pipe renovation)."
+    },
+    "velkaosuus": {
+      "term": "velkaosuus",
+      "explanation": "The apartment's share of the housing company's loans. Added to the sale price to get the debt-free price."
+    },
+    "velatonHinta": {
+      "term": "velaton hinta",
+      "explanation": "Debt-free price = sale price + debt share. Comparable prices in Finland are usually quoted debt-free."
+    },
+    "myyntihinta": {
+      "term": "myyntihinta",
+      "explanation": "Sale price — what the buyer pays the seller, excluding the debt share."
+    },
+    "varainsiirtovero": {
+      "term": "varainsiirtovero",
+      "explanation": "Transfer tax paid by the buyer. Rates are editable in settings."
+    },
+    "isannoitsija": {
+      "term": "isännöitsijä",
+      "explanation": "Property manager of the housing company."
+    },
+    "isannoitsijantodistus": {
+      "term": "isännöitsijäntodistus",
+      "explanation": "Property manager's certificate: the housing company's finances, loans, completed and planned renovations. Always request before an offer."
+    },
+    "pts": {
+      "term": "PTS",
+      "explanation": "Pitkän tähtäimen suunnitelma — the housing company's long-term maintenance plan (typically 5–10 years)."
+    },
+    "muutostyoilmoitus": {
+      "term": "muutostyöilmoitus",
+      "explanation": "Renovation notice. Shareholders must notify the housing company in writing before renovations that may affect the building (wet rooms, plumbing, electrical, structures). The company may set conditions and supervise."
+    },
+    "putkiremontti": {
+      "term": "putkiremontti",
+      "explanation": "Pipe renovation (linjasaneeraus). Replaces water and sewer pipes, often renewing bathrooms. Typically costs several hundred to over a thousand euros per m²."
+    },
+    "asbestikartoitus": {
+      "term": "asbestikartoitus",
+      "explanation": "Asbestos survey. Required before renovation works in buildings started before 1994."
+    },
+    "hankintamenoOlettama": {
+      "term": "hankintameno-olettama",
+      "explanation": "Deemed acquisition cost for individuals: at least 20 % of the sale price can be deducted (40 % if owned 10+ years)."
+    },
+    "kerrostalo": {
+      "term": "kerrostalo",
+      "explanation": "Block of flats / apartment building."
+    },
+    "rivitalo": {
+      "term": "rivitalo",
+      "explanation": "Rowhouse / terraced house, usually also a housing company."
+    }
+  },
+  "risks": {
+    "title": "Risk flags",
+    "description": "Finnish-specific checks based on the property, housing company and deal numbers.",
+    "none": "No risk flags. That doesn't mean there are no risks — check the isännöitsijäntodistus and PTS.",
+    "basis": "Basis",
+    "asbestos_survey": {
+      "title": "Asbestos survey required before renovation",
+      "detail": "The building is from {buildYear} (before {threshold}). An asbestos survey (asbestikartoitus) is required before works that disturb structures, e.g. wet rooms, flooring, walls. Budget roughly a few hundred to over a thousand euros and some lead time."
+    },
+    "pts_major_upcoming": {
+      "title": "Major works planned: {kind} in {year}",
+      "detail": "The maintenance plan lists this for {year} ({status}). {estimatedShare, select, other {Estimated share for this apartment: {estimatedShare}.} empty {No cost estimate recorded.}} {beforeSale, select, yes {This falls within your expected holding period.} other {Buyers will price this in at resale.}}"
+    },
+    "pts_upcoming": {
+      "title": "Planned works: {kind} in {year}",
+      "detail": "The maintenance plan lists this for {year} ({status}). {estimatedShare, select, other {Estimated share: {estimatedShare}.} empty {No cost estimate recorded.}}"
+    },
+    "pipe_renovation_overdue": {
+      "title": "Pipe renovation may be due",
+      "detail": "{renovated, select, yes {Pipes were last renovated in {referenceYear}} other {No pipe renovation on record; the building is from {referenceYear}}} — {age} years ago, and none is in the PTS. Ask the isännöitsijä whether a putkiremontti is being prepared; it affects both price and resale."
+    },
+    "renovation_notice_required": {
+      "title": "Renovation notice (muutostyöilmoitus) needed",
+      "detail": "Notify the housing company in writing before starting works on wet rooms, plumbing, electrical, ventilation or structures. Allow time for review and possible conditions or supervision at your cost."
+    },
+    "missing_manager_certificate": {
+      "title": "No isännöitsijäntodistus recorded",
+      "detail": "Request the property manager's certificate before making an offer. It lists the company's loans, completed and planned renovations."
+    },
+    "missing_maintenance_plan": {
+      "title": "No maintenance plan (PTS) recorded",
+      "detail": "Request the PTS and add planned works so they can be priced into the deal."
+    },
+    "high_debt_share": {
+      "title": "High debt share",
+      "detail": "The debt share is {ratio} of the debt-free price (flag above {limit}). Check the loan terms and future rahoitusvastike."
+    },
+    "leased_plot": {
+      "title": "Leased plot (vuokratontti)",
+      "detail": "Check the ground lease term and upcoming rent increases; they affect vastike and resale price."
+    },
+    "individual_business_income": {
+      "title": "Frequent flipping may be taxed as business income",
+      "detail": "If you buy and sell apartments regularly as an individual, the Tax Administration may treat it as business activity rather than capital gains. Confirm with a tax advisor."
+    },
+    "expected_loss": {
+      "title": "Expected case loses money",
+      "detail": "The expected scenario ends at {amount} after tax. Renegotiate the price or revisit the renovation scope."
+    },
+    "worst_case_loss": {
+      "title": "Worst case loses money",
+      "detail": "The worst-case scenario ends at {amount} after tax. Make sure you can absorb that."
+    }
+  },
+  "assumptions": {
+    "title": "Assumptions",
+    "debt_share_unchanged_at_sale": "Debt share is assumed unchanged at sale; rahoitusvastike is treated fully as a cost (conservative).",
+    "interest_only_loan": "Loan is interest-only during the holding period and financed against the purchase price.",
+    "vat_not_deductible": "VAT is added to renovation and agent costs because selling housing shares is VAT-exempt (no input VAT deduction).",
+    "vat_deductible": "Your workspace is set to deduct input VAT; costs are shown excluding VAT.",
+    "individual_holding_costs_not_deductible": "For individuals, holding costs (vastike, interest, utilities) are treated as non-deductible from the capital gain.",
+    "individual_presumption_applied": "The deemed acquisition cost (hankintameno-olettama) was larger than actual costs and was used.",
+    "company_losses_not_carried": "Losses are shown with zero tax; loss carry-forward is not modelled.",
+    "real_estate_no_debt_share": "Debt share is ignored for real estate."
+  },
+  "auth": {
+    "signInTitle": "Sign in to FlipWise",
+    "signUpTitle": "Create your workspace",
+    "signUpClientTitle": "Create your account",
+    "signUpSubtitle": "For flippers and renovation entrepreneurs. Clients are invited to projects by their flipper.",
+    "signUpClientSubtitle": "You've been invited to view a project. Create an account with the invited email address.",
+    "name": "Your name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 10 characters.",
+    "workspace": "Workspace name",
+    "workspaceHint": "Usually your company name, e.g. “Kallio Flips Oy”.",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "magicLink": "Email me a sign-in link",
+    "usePassword": "Use password instead",
+    "magicLinkSent": "Check your inbox — we sent a sign-in link to {email}.",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?",
+    "forgot": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotSend": "Send reset link",
+    "forgotSent": "If an account exists for {email}, a reset link is on its way.",
+    "resetTitle": "Choose a new password",
+    "resetSubmit": "Set new password",
+    "resetDone": "Password updated. You can sign in now.",
+    "or": "or",
+    "gdprNote": "Your data is stored in the EU. We only collect what's needed to run the service.",
+    "onboardingTitle": "Create a workspace",
+    "onboardingSubtitle": "Workspaces hold your projects and team. You can invite colleagues later.",
+    "devMailHint": "Development mode: emails are shown at /dev/mail."
+  },
+  "landing": {
+    "tagline": "Flip apartments and rowhouses in Finland with numbers you can trust.",
+    "sub": "Deal analysis built for housing company shares, renovation planning, AI-assisted suggestions and project tracking — in one place, hosted in the EU.",
+    "cta": "Create a workspace",
+    "signIn": "Sign in",
+    "f1": "Deal analysis for asunto-osakkeet",
+    "f1d": "Debt-free price, transfer tax, vastike, holding and selling costs — with best, expected and worst cases side by side.",
+    "f2": "Finnish risk checks",
+    "f2d": "Upcoming putkiremontti and facade works from the PTS, asbestos surveys for pre-1994 buildings, and the muutostyöilmoitus process.",
+    "f3": "Share with clients",
+    "f3d": "Give investors and homeowners a clean read-only or comment view of the deal and plan."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your active flips at a glance.",
+    "activeProjects": "Active projects",
+    "capitalTiedUp": "Capital tied up",
+    "capitalHint": "Estimated equity in purchased projects (expected case).",
+    "expectedProfit": "Expected profit after tax",
+    "expectedProfitHint": "Sum of expected cases for active projects.",
+    "portfolioRoi": "Realised ROI (sold)",
+    "portfolioRoiHint": "Profit after tax ÷ total cost, sold projects with actual numbers.",
+    "pipeline": "Pipeline",
+    "recent": "Recently updated",
+    "empty": "No projects yet. Start by adding a property you're looking at.",
+    "newProject": "New project"
+  },
+  "projects": {
+    "title": "Projects",
+    "expectedProfit": "Expected profit",
+    "actualProfit": "Actual profit",
+    "salePrice": "Sale (debt-free)",
+    "noDeal": "No deal numbers yet.",
+    "subtitle": "Every property you're tracking, from first look to sale.",
+    "new": "New project",
+    "viewBoard": "Board",
+    "viewList": "List",
+    "all": "All",
+    "empty": "No projects in this stage.",
+    "colName": "Project",
+    "colStatus": "Status",
+    "colArea": "Area",
+    "colPrice": "Asking price",
+    "colProfit": "Exp. profit",
+    "colRoi": "ROI",
+    "tabs": {
+      "overview": "Overview",
+      "deal": "Deal analysis",
+      "housingCompany": "Taloyhtiö & PTS",
+      "comparables": "Comparables & market",
+      "sharing": "Sharing",
+      "renovation": "Renovation plan",
+      "ai": "AI suggestions",
+      "photos": "Photos",
+      "tasks": "Tasks",
+      "budget": "Budget",
+      "documents": "Documents"
+    },
+    "changeStatus": "Move to stage",
+    "statusUpdated": "Stage updated",
+    "deleteProject": "Delete project",
+    "deleteConfirm": "Delete this project and all its data? This cannot be undone.",
+    "deleted": "Project deleted",
+    "notes": "Notes"
+  },
+  "newProject": {
+    "title": "New project",
+    "subtitle": "Start with the listing basics. You can refine every number afterwards.",
+    "sectionProperty": "Property",
+    "sectionDeal": "Listing numbers",
+    "sectionPlan": "Your first estimate",
+    "planHint": "Best and worst cases are derived automatically and can be edited in Deal analysis.",
+    "create": "Create project"
+  },
+  "property": {
+    "title": "Property",
+    "name": "Project name",
+    "nameHint": "Defaults to the address.",
+    "streetAddress": "Street address",
+    "unit": "Staircase & apartment",
+    "unitPlaceholder": "e.g. B 24",
+    "postalCode": "Postal code",
+    "municipality": "Municipality",
+    "district": "District",
+    "districtPlaceholder": "e.g. Kallio",
+    "buildingType": "Building type",
+    "ownershipForm": "Ownership form",
+    "livingArea": "Living area",
+    "rooms": "Rooms",
+    "layout": "Layout",
+    "layoutPlaceholder": "e.g. 2h+k+s",
+    "buildYear": "Build year",
+    "floor": "Floor",
+    "floorsTotal": "Floors in building",
+    "hasElevator": "Elevator",
+    "hasSauna": "Own sauna",
+    "hasBalcony": "Balcony / terrace",
+    "plotType": "Plot",
+    "condition": "Condition",
+    "energyClass": "Energy class",
+    "saved": "Property saved"
+  },
+  "deal": {
+    "title": "Deal analysis",
+    "subtitle": "Acquisition, renovation, holding and selling costs with three scenarios.",
+    "inputs": "Purchase & running costs",
+    "askingPrice": "Asking price",
+    "askingPriceHint": "Myyntihinta — excluding debt share.",
+    "offerPrice": "Your offer",
+    "offerPriceHint": "Leave empty to use the asking price.",
+    "debtShare": "Debt share",
+    "maintenanceFee": "Maintenance fee",
+    "financingFee": "Financing fee",
+    "utilities": "Utilities & insurance",
+    "utilitiesHint": "Electricity, water, home insurance while you hold.",
+    "otherAcquisitionCosts": "Other purchase costs",
+    "otherAcquisitionHint": "Condition inspection, legal, bank fees (as paid).",
+    "otherSellingCosts": "Other selling costs",
+    "otherSellingHint": "Styling, photos, marketing (as paid).",
+    "agentFee": "Agent fee",
+    "agentFeeHint": "Excl. VAT, on debt-free sale price.",
+    "financing": "Financing",
+    "loanToValue": "Loan-to-value",
+    "loanToValueHint": "Share of the purchase price financed.",
+    "loanFee": "Loan arrangement fee",
+    "taxProfile": "Tax profile",
+    "scenarios": "Scenarios",
+    "salePrice": "Sale price (debt-free)",
+    "renovationBudget": "Renovation budget",
+    "renovationHintExcl": "Excl. VAT. Becomes the room-by-room plan in phase 2.",
+    "contingency": "Contingency",
+    "holdingMonths": "Holding period",
+    "interestRate": "Interest rate",
+    "deriveScenarios": "Derive best/worst from expected",
+    "results": "Results",
+    "line": {
+      "debtFreePurchase": "Debt-free purchase price",
+      "purchasePrice": "Purchase price",
+      "transferTax": "Transfer tax ({rate})",
+      "otherAcquisition": "Other purchase costs",
+      "acquisitionTotal": "Total acquisition",
+      "renovation": "Renovation (excl. VAT)",
+      "contingency": "Contingency",
+      "renovationVat": "VAT on renovation",
+      "renovationTotal": "Total renovation",
+      "maintenance": "Hoitovastike",
+      "financing": "Rahoitusvastike",
+      "utilities": "Utilities",
+      "interest": "Loan interest",
+      "loanFee": "Loan fee",
+      "holdingTotal": "Total holding",
+      "agentFee": "Agent fee",
+      "agentVat": "VAT on agent fee",
+      "otherSelling": "Other selling costs",
+      "sellingTotal": "Total selling",
+      "totalCost": "Total cost (debt-free)",
+      "salePrice": "Sale price (debt-free)",
+      "profitBeforeTax": "Profit before tax",
+      "tax": "Tax",
+      "profitAfterTax": "Profit after tax",
+      "roi": "ROI (on total cost)",
+      "roe": "Return on equity",
+      "annualizedRoi": "Annualised ROI",
+      "breakEven": "Break-even sale price",
+      "equity": "Equity required",
+      "loan": "Loan amount",
+      "perM2Purchase": "Purchase €/m² (debt-free)",
+      "perM2Sale": "Sale €/m²",
+      "perM2BreakEven": "Break-even €/m²"
+    },
+    "groups": {
+      "acquisition": "Acquisition",
+      "renovation": "Renovation",
+      "holding": "Holding",
+      "selling": "Selling",
+      "returns": "Returns"
+    },
+    "actual": "Actual outcome",
+    "actualHint": "Calculated with actual purchase, renovation, holding and sale figures.",
+    "actualPurchase": "Actual purchase price",
+    "actualRenovation": "Actual renovation (excl. VAT)",
+    "actualMonths": "Actual holding (months)",
+    "actualSale": "Actual sale price (debt-free)",
+    "vsExpected": "vs expected",
+    "saved": "Deal saved",
+    "unsaved": "Unsaved changes",
+    "ratesFrom": "Rates in use",
+    "editRates": "Edit rates in settings",
+    "taxNoteCompany": "Corporate tax {rate} on profit.",
+    "taxNoteIndividual": "Capital income tax {lower} / {upper} above {threshold}.",
+    "vatNote": "VAT {rate} is {deductible, select, yes {deducted (workspace setting)} other {added to renovation and agent costs}}.",
+    "noDeal": "No deal numbers yet."
+  },
+  "overview": {
+    "summary": "Expected case",
+    "openDeal": "Open deal analysis",
+    "editProperty": "Edit property",
+    "manualRisks": "Your own risk notes",
+    "addRisk": "Add risk note",
+    "riskTitle": "Title",
+    "riskDetail": "Details",
+    "riskSeverity": "Severity",
+    "riskAdded": "Risk note added",
+    "comments": "Comments",
+    "commentsHint": "Visible to your team and to clients this project is shared with.",
+    "commentPlaceholder": "Write a comment…",
+    "postComment": "Post",
+    "noComments": "No comments yet.",
+    "dangerZone": "Danger zone",
+    "details": "Details",
+    "timeline": "Stage history",
+    "client": "client"
+  },
+  "housingCompany": {
+    "title": "Housing company",
+    "subtitle": "Details from the isännöitsijäntodistus and the maintenance plan (PTS).",
+    "notApplicable": "This property is owned as real estate, so there is no housing company. Planned works are still worth recording in notes.",
+    "name": "Name",
+    "namePlaceholder": "Asunto Oy …",
+    "businessId": "Business ID (Y-tunnus)",
+    "managerName": "Property manager (isännöitsijä)",
+    "managerEmail": "Manager email",
+    "managerPhone": "Manager phone",
+    "unitsTotal": "Apartments in company",
+    "lastPipe": "Last pipe renovation",
+    "lastFacade": "Last facade renovation",
+    "lastRoof": "Last roof renovation",
+    "certificateDate": "Isännöitsijäntodistus date",
+    "ptsDate": "PTS date",
+    "renovationNotice": "Muutostyöilmoitus process",
+    "renovationNoticeHint": "How the company handles renovation notices: lead time, supervisor, conditions.",
+    "notes": "Notes",
+    "saved": "Housing company saved",
+    "pts": "Planned maintenance (PTS)",
+    "ptsHint": "Add each item from the PTS or AGM minutes. Items in the next years are flagged as risks.",
+    "addItem": "Add PTS item",
+    "kind": "Work",
+    "year": "Planned year",
+    "status": "Status",
+    "costPerM2": "Est. cost per m²",
+    "estShare": "Est. share for this apartment",
+    "source": "Source",
+    "sourcePlaceholder": "e.g. PTS 2026, p. 3",
+    "noItems": "No PTS items recorded.",
+    "itemAdded": "PTS item added"
+  },
+  "comparables": {
+    "title": "Comparable sales",
+    "subtitle": "Sales you've entered or imported. Debt-free prices.",
+    "add": "Add comparable",
+    "import": "Import CSV",
+    "importTitle": "Import comparable sales",
+    "importHint": "Comma- or semicolon-separated, one sale per row. Decimal commas and d.m.yyyy dates are fine. Prices are debt-free (velaton hinta).",
+    "downloadTemplate": "Download template",
+    "chooseFile": "CSV file",
+    "importDone": "{count, plural, one {# sale imported} other {# sales imported}}",
+    "importErrors": "{count, plural, one {# row skipped} other {# rows skipped}}",
+    "line": "Line {line}",
+    "address": "Address",
+    "area": "Area",
+    "rooms": "Rooms",
+    "year": "Built",
+    "condition": "Condition",
+    "price": "Debt-free price",
+    "pricePerM2": "€/m²",
+    "date": "Sold",
+    "source": "Source",
+    "sourceRef": "Reference",
+    "sourcePlaceholder": "e.g. Agent's sales report, bank valuation",
+    "empty": "No comparables yet. Add sales you know of, or import a CSV from a licensed data source you have access to.",
+    "added": "Comparable added",
+    "median": "Median €/m²",
+    "range": "Range",
+    "impliedValue": "Implied value",
+    "impliedHint": "Median €/m² × {area} m²",
+    "vsExpected": "Your expected sale",
+    "count": "{count, plural, one {# comparable} other {# comparables}}",
+    "sameType": "Same building type only",
+    "vsMedian": "{diff} vs median"
+  },
+  "market": {
+    "title": "Price trend",
+    "subtitle": "Old dwellings in housing companies, €/m², postal code {postalCode} ({segment}).",
+    "segment": {
+      "blocks_of_flats": "blocks of flats",
+      "terraced": "terraced houses",
+      "all": "all building types"
+    },
+    "refresh": "Refresh",
+    "fetched": "Fetched {date}",
+    "unreachable": "Statistics Finland couldn't be reached. {cached, select, yes {Showing cached data.} other {No cached data yet — try again later.}}",
+    "noData": "Statistics Finland has no published figures for this postal code and building type (small areas are often suppressed for privacy).",
+    "showTable": "Show table",
+    "hideTable": "Hide table",
+    "period": "Period",
+    "transactions": "Sales",
+    "yourSale": "Your expected sale",
+    "dataSources": "Data sources",
+    "srcManual": "Manual entry",
+    "srcCsv": "CSV import",
+    "srcStatfin": "Statistics Finland (open data, CC BY 4.0)",
+    "srcLicensed": "Licensed listing / transaction data",
+    "srcLicensedNote": "Oikotie, Etuovi and asuntojen.hintatiedot.fi offer no open API and are never scraped; a licensed feed can be plugged into the adapter layer.",
+    "connected": "Active",
+    "notConnected": "Not connected"
+  },
+  "sharing": {
+    "title": "Share with clients",
+    "subtitle": "Clients see a read-only summary of the deal, scenarios and risk flags. Commenters can also leave comments. They never see your other projects.",
+    "email": "Client email",
+    "role": "Access",
+    "expires": "Link valid for",
+    "days": "{count} days",
+    "invite": "Send invite",
+    "invited": "Invitation sent to {email}",
+    "inviteLink": "Invite link (shown once)",
+    "inviteLinkHint": "We've emailed this link. You can also copy it and send it yourself — it only works for {email}.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "shares": "People with access",
+    "none": "Not shared with anyone yet.",
+    "status": {
+      "pending": "Invited",
+      "active": "Active",
+      "revoked": "Revoked"
+    },
+    "revoke": "Revoke",
+    "revoked": "Access revoked",
+    "expiresOn": "Expires {date}",
+    "whatClientsSee": "What clients see",
+    "clientSees": "Property summary, all three scenarios with cost breakdown, risk flags, comments. Later: renovation plan and before/after images you choose to share.",
+    "clientDoesNotSee": "Your other projects, internal notes, housing-company contact details, settings."
+  },
+  "invite": {
+    "projectTitle": "You're invited to view a project",
+    "projectBody": "{org} has shared “{project}” with you on FlipWise.",
+    "sentTo": "This invitation was sent to {email}.",
+    "signInToAccept": "Sign in to accept",
+    "createAccount": "Create an account",
+    "accept": "Open project",
+    "wrongAccount": "You're signed in as {current}, but this invitation is for {email}. Sign out and sign in with the invited address.",
+    "invalid": "This invitation link is invalid, expired or has been revoked. Ask the sender for a new one.",
+    "teamTitle": "Join a workspace",
+    "teamBody": "You've been invited to join {org} as {role}.",
+    "join": "Join workspace",
+    "teamInvalid": "This invitation is invalid or has expired."
+  },
+  "portal": {
+    "title": "Shared with me",
+    "subtitle": "Projects that flippers have shared with you.",
+    "empty": "Nothing has been shared with you yet. When a flipper shares a project, it will appear here.",
+    "sharedBy": "Shared by {org}",
+    "createWorkspace": "Are you a flipper? Create your own workspace",
+    "goToWorkspace": "Go to my workspace",
+    "readOnly": "Read-only view",
+    "canComment": "You can comment",
+    "summary": "Deal summary",
+    "property": "Property"
+  },
+  "settings": {
+    "title": "Settings",
+    "nav": {
+      "workspace": "Workspace",
+      "members": "Members",
+      "config": "Rates & assumptions",
+      "account": "Account & data"
+    },
+    "workspace": "Workspace",
+    "workspaceName": "Workspace name",
+    "plan": "Plan",
+    "planHint": "Billing isn't enabled yet. Your workspace is on the {plan} plan.",
+    "defaultTaxProfile": "Default tax profile for new projects",
+    "vatDisplay": "Show renovation prices",
+    "vatExcl": "Excluding VAT",
+    "vatIncl": "Including VAT",
+    "vatDeductible": "We can deduct input VAT on renovation and selling costs",
+    "vatDeductibleHint": "Usually not: selling housing shares is VAT-exempt, so flipping companies typically can't deduct VAT on renovations. Check with your accountant.",
+    "saved": "Settings saved",
+    "adminOnly": "Only workspace owners and admins can change these settings.",
+    "members": "Members",
+    "membersHint": "Team members can see and edit all projects in this workspace. Clients are invited per project from the Sharing tab.",
+    "inviteMember": "Invite member",
+    "inviteEmail": "Email",
+    "inviteRole": "Role",
+    "inviteSent": "Invitation sent",
+    "pendingInvites": "Pending invitations",
+    "cancelInvite": "Cancel",
+    "removeMember": "Remove",
+    "you": "you",
+    "roleHelp": "Owner: everything incl. deleting the workspace. Admin: members, settings, rates. Member: projects.",
+    "config": "Rates & assumptions",
+    "configHint": "Tax rates, defaults and risk thresholds used in every calculation. Platform defaults are maintained by FlipWise; your admins can override any value for this workspace.",
+    "key": "Setting",
+    "value": "Value",
+    "scope": "Scope",
+    "scopePlatform": "Platform default",
+    "scopeOrg": "Workspace override",
+    "override": "Override",
+    "overrideTitle": "Override for this workspace",
+    "removeOverride": "Use platform default",
+    "validFrom": "Valid from",
+    "source": "Source",
+    "sourceHint": "Where does this value come from? e.g. “Our loan offer, Nordea 2026-10”.",
+    "notes": "Notes",
+    "configSaved": "Value saved",
+    "account": "Account & data",
+    "profile": "Profile",
+    "gdpr": "Your data (GDPR)",
+    "gdprBody": "Your data is stored in the EU. Data export and account deletion will be self-service in phase 6; until then, contact support and we'll handle it within 30 days.",
+    "groups": {
+      "tax": "Tax",
+      "deal": "Deal defaults",
+      "risk": "Risk thresholds"
+    }
+  },
+  "configKeys": {
+    "tax_transfer_housing_share": "Transfer tax — housing company shares",
+    "tax_transfer_real_estate": "Transfer tax — real estate",
+    "tax_corporate": "Corporate income tax",
+    "tax_capital_income_lower": "Capital income tax — base rate",
+    "tax_capital_income_upper": "Capital income tax — higher rate",
+    "tax_capital_income_threshold": "Capital income — higher-rate threshold",
+    "tax_acquisition_cost_presumption": "Deemed acquisition cost (individuals, < 10 years)",
+    "tax_vat_general": "VAT — general rate",
+    "deal_default_agent_fee": "Default agent fee (excl. VAT)",
+    "deal_default_interest_rate": "Default loan interest",
+    "deal_default_loan_to_value": "Default loan-to-value",
+    "deal_default_utilities_monthly": "Default utilities & insurance / month",
+    "deal_default_contingency": "Default renovation contingency",
+    "risk_asbestos_survey_before_year": "Asbestos survey required for buildings started before",
+    "risk_pts_horizon_years": "Flag PTS works within (years)",
+    "risk_pipe_renovation_age_years": "Flag missing pipe renovation after (years)",
+    "risk_high_debt_share_ratio": "Flag debt share above (of debt-free price)"
+  },
+  "admin": {
+    "title": "Platform admin",
+    "subtitle": "Platform-wide defaults used by every workspace unless overridden. Changes are versioned by “valid from” date.",
+    "newVersion": "New version",
+    "history": "History",
+    "tenants": "Workspaces",
+    "tenantsHint": "Plan tier is stored for future billing.",
+    "projects": "Projects",
+    "membersCount": "Members"
+  }
+}

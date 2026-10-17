@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
+/* FlipWise design tokens — calm Nordic palette: birch paper, pine green, slate ink. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f5f1;
+  --surface: #ffffff;
+  --surface-muted: #efede7;
+  --foreground: #1b2220;
+  --muted: #5d6763;
+  --border: #e2dfd7;
+  --ring: #2d6a55;
+  --primary: #1f4d3f;
+  --primary-hover: #173b30;
+  --primary-foreground: #ffffff;
+  --accent: #c8b594;
+  --success: #2e7d5b;
+  --success-soft: #e3f1ea;
+  --warning: #9a6312;
+  --warning-soft: #fbf0dc;
+  --danger: #b0383a;
+  --danger-soft: #f9e4e3;
+  --info: #2f5d8a;
+  --info-soft: #e5eef7;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 14px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Native inputs on iOS zoom when font-size < 16px */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
 }
