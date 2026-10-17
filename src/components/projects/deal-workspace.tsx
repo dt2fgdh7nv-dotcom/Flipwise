@@ -36,6 +36,8 @@ export interface DealWorkspaceProps {
   manualRisks: { id: string; title: string; detail: string | null; severity: "high" | "medium" | "info" }[];
   org: { vatDeductible: boolean; vatDisplay: "excl" | "incl" };
   config: ResolvedConfig;
+  /** Renovation plan totals (cents excl. VAT), when a plan exists. */
+  plan?: { total: number; low: number; high: number } | null;
   deal: {
     askingPrice: number;
     offerPrice: number | null;
@@ -214,6 +216,16 @@ export function DealWorkspace(props: DealWorkspaceProps) {
   });
   const assumptions = [...new Set(results.flatMap((r) => r.assumptions))];
 
+  function applyPlanBudgets() {
+    if (!props.plan) return;
+    const p = props.plan;
+    const budget: Record<ScenarioKind, number> = { best: p.low, expected: p.total, worst: p.high };
+    setForm({
+      ...form,
+      scenarios: Object.fromEntries(KINDS.map((k) => [k, { ...form.scenarios[k], renovationBudget: renoToInput(budget[k]) }])) as Record<ScenarioKind, ScenarioState>,
+    });
+  }
+
   function derive() {
     const e = expectedIn;
     const derived = deriveScenarios({ ...e });
@@ -368,6 +380,20 @@ export function DealWorkspace(props: DealWorkspaceProps) {
               ))}
             </div>
             <p className="mt-3 text-xs text-muted">{showInclVat ? `* ${t("renovationBudget")}: incl. VAT ${formatBps(rates.vatBps)}; stored excl. VAT.` : t("renovationHintExcl")}</p>
+            {props.plan ? (
+              <div className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-surface-muted px-3 py-2 text-xs">
+                <span>
+                  {t("planTotal", {
+                    total: formatEur(showInclVat ? Math.round(props.plan.total * vatFactor) : props.plan.total),
+                    low: formatEur(showInclVat ? Math.round(props.plan.low * vatFactor) : props.plan.low),
+                    high: formatEur(showInclVat ? Math.round(props.plan.high * vatFactor) : props.plan.high),
+                  })}
+                </span>
+                <Button type="button" size="sm" variant="secondary" onClick={applyPlanBudgets}>
+                  {t("usePlan")}
+                </Button>
+              </div>
+            ) : null}
           </CardContent>
         </Card>
 

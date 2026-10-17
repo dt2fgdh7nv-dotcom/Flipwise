@@ -26,6 +26,7 @@ test.describe("flipper", () => {
       ["Deal analysis", "Results", "04-deal"],
       ["Taloyhtiö & PTS", "Planned maintenance (PTS)", "05-housing"],
       ["Comparables & market", "Comparable sales", "06-comparables"],
+      ["Renovation plan", "Professionals required", "07b-renovation"],
       ["Sharing", "Share with clients", "07-sharing"],
     ] as const) {
       await page.getByRole("link", { name: tab, exact: true }).click();
@@ -47,6 +48,36 @@ test.describe("flipper", () => {
     await expect(profit).not.toHaveText(before!);
     await page.getByRole("button", { name: "Discard" }).click();
     await expect(profit).toHaveText(before!);
+  });
+
+  test("renovation plan: add a room with typical items and apply to deal", async ({ page }) => {
+    await page.goto("/app/projects");
+    await page.getByText("Porvoo rivitalo 4h+k+s").first().click();
+    await page.getByRole("link", { name: "Renovation plan", exact: true }).click();
+    await expect(page.getByText("Professionals required")).toBeVisible();
+    const rooms = page.getByRole("button", { name: "Delete room" });
+    await expect(rooms.first()).toBeVisible();
+    const before = await rooms.count();
+    await page.getByRole("button", { name: "Add room" }).click();
+    await page.getByLabel("Room type").selectOption("sauna");
+    await page.locator("#room-area").fill("3");
+    await page.getByRole("dialog").getByRole("button", { name: "Add room" }).click();
+    await expect(rooms).toHaveCount(before + 1);
+    await expect(page.getByText("Sauna heater incl. connection").first()).toBeVisible();
+    await page.getByRole("button", { name: "Use in deal scenarios" }).click();
+    await expect(page.getByText(/Deal scenarios updated/)).toBeVisible();
+    await expect(page.getByText("The deal scenarios use this plan.")).toBeVisible();
+    // clean up the added room
+    page.once("dialog", (d) => d.accept());
+    await rooms.last().click();
+    await expect(rooms).toHaveCount(before);
+  });
+
+  test("cost database lists items with sources", async ({ page }) => {
+    await page.goto("/app/costs");
+    await expect(page.getByText("Waterproofing (floor & walls)")).toBeVisible();
+    await expect(page.getByText("Certified waterproofer").first()).toBeVisible();
+    await shot(page, "11-costs");
   });
 
   test("new project flow", async ({ page }) => {

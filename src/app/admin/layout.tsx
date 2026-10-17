@@ -17,6 +17,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Logo />
           </Link>
           <div className="flex items-center gap-4 text-sm">
+            <Link href="/admin" className="hover:underline">
+              Config
+            </Link>
+            <Link href="/admin/costs" className="hover:underline">
+              Cost database
+            </Link>
             {ctx ? (
               <Link href="/app" className="text-primary hover:underline">
                 Workspace

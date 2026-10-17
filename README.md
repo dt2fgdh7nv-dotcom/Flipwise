@@ -76,6 +76,16 @@ pipe renovation overdue, asbestos survey for pre-1994 buildings, muutostyöilmoi
 isännöitsijäntodistus/PTS, high debt share, leased plot, individual business-income risk, scenario losses.
 Each flag carries its basis (law, config source or PTS reference).
 
+**Renovation cost estimator.** `cost_item` holds the catalogue: platform items (edited at `/admin/costs`,
+CSV import/export by `code`) plus per-workspace price overrides and custom items (*Cost database*). Each item has
+budget / mid / premium price ranges (euros excl. VAT per m², lm, pcs, set or room), labour share, certification
+needs (waterproofing, electrical, plumbing, asbestos), a muutostyöilmoitus flag, source and price date. Plans
+(`renovation_plan` → `plan_room` → `plan_line`) snapshot prices when an item is added, so catalogue edits never
+silently change a plan ("Refresh prices" re-applies them). "Add typical items" uses `src/lib/renovation/templates.ts`
+to suggest items and quantities from room type and floor area. "Use in deal scenarios" sets the best / expected /
+worst renovation budgets to the low / typical / high end of the plan. **Seed prices are provisional FlipWise
+estimates** — replace them with sourced prices (contractor price list, own projects) via CSV import.
+
 **Market data.** `src/server/market/`: adapter interfaces for licensed comparable-sales feeds and public
 statistics. Statistics Finland PxWeb is implemented (metadata-driven, cached 7 days, degrades gracefully).
 Oikotie, Etuovi and asuntojen.hintatiedot.fi are **not scraped**; comparables come from manual entry or CSV
@@ -106,7 +116,7 @@ scripts/seed.ts        config defaults + demo data
 
 - [x] Phase 0 — foundation: auth, tenants, roles, i18n, design system, config, seed
 - [x] Phase 1 — deal analysis, scenarios, risk flags, housing company & PTS, comparables + CSV, StatFin trend, client sharing & portal
-- [ ] Phase 2 — renovation cost estimator (room builder, admin-editable cost database)
+- [x] Phase 2 — renovation cost estimator (room builder, admin-editable cost database, plan → deal scenarios)
 - [ ] Phase 3 — AI renovation suggestions
 - [ ] Phase 4 — photos, AI analysis, AI "after" images (Replicate), before/after slider
 - [ ] Phase 5 — project management: tasks/timeline, contractors, budget vs actual, documents

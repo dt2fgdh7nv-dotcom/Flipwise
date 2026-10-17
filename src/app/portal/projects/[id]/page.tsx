@@ -13,6 +13,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatEur, formatPct } from "@/lib/format";
 import { requireProjectAccess } from "@/server/authz";
 import { listComments } from "@/server/data/comments";
+import { getPlan, planView } from "@/server/data/costs";
+import { PlanSummaryReadOnly } from "@/components/renovation/plan-summary-readonly";
 import { analyzeProject, getProjectBundle } from "@/server/data/projects";
 
 export const metadata = { title: "Shared project" };
@@ -22,7 +24,11 @@ export default async function PortalProjectPage({ params }: { params: Promise<{ 
   const { id } = await params;
   const access = await requireProjectAccess(id, "view");
   const b = (await getProjectBundle(id))!;
-  const [{ results, actual, risks }, comments] = await Promise.all([analyzeProject(b), listComments(id, b.organizationId)]);
+  const [{ results, actual, risks, config }, comments, plan] = await Promise.all([analyzeProject(b), listComments(id, b.organizationId), getPlan(id)]);
+  const pv = planView(plan);
+  const vatBps = config["tax.vat.general"].value;
+  const vatIncl = b.org.vatDisplay === "incl";
+  const tren = await getTranslations("renovation");
   const t = await getTranslations("portal");
   const td = await getTranslations("deal");
   const tr = await getTranslations("risks");
@@ -75,6 +81,23 @@ export default async function PortalProjectPage({ params }: { params: Promise<{ 
             <DealResultsTable results={results} actual={actual} />
           </CardContent>
         </Card>
+
+        {pv.totals.plan.total > 0 ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>{tren("title")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PlanSummaryReadOnly
+                rooms={pv.rooms}
+                byRoom={pv.totals.byRoom}
+                total={pv.totals.plan}
+                vatFactor={vatIncl ? 1 + vatBps / 10_000 : 1}
+                vatLabel={vatIncl ? tren("inclVat", { rate: `${vatBps / 100} %` }) : tren("exclVat")}
+              />
+            </CardContent>
+          </Card>
+        ) : null}
 
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>

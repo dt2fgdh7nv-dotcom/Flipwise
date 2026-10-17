@@ -33,7 +33,7 @@ export function AppNav({
   const items: NavItem[] = [
     { href: "/app", label: t("dashboard"), icon: LayoutDashboard },
     { href: "/app/projects", label: t("projects"), icon: FolderKanban },
-    { href: "/app/costs", label: t("costDatabase"), icon: Calculator, phase: 2 },
+    { href: "/app/costs", label: t("costDatabase"), icon: Calculator },
     { href: "/app/contractors", label: t("contractors"), icon: HardHat, phase: 5 },
     { href: "/app/settings", label: t("settings"), icon: Settings },
   ];

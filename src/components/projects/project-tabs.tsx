@@ -9,7 +9,7 @@ const TABS = [
   { seg: "deal", key: "deal" },
   { seg: "housing-company", key: "housingCompany" },
   { seg: "comparables", key: "comparables" },
-  { seg: "renovation", key: "renovation", phase: 2 },
+  { seg: "renovation", key: "renovation" },
   { seg: "ai", key: "ai", phase: 3 },
   { seg: "photos", key: "photos", phase: 4 },
   { seg: "tasks", key: "tasks", phase: 5 },

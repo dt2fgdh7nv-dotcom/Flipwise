@@ -3,6 +3,7 @@ import { DealWorkspace } from "@/components/projects/deal-workspace";
 import { Disclaimer } from "@/components/shared/disclaimer";
 import { requireProjectAccess } from "@/server/authz";
 import { getEffectiveConfig } from "@/server/data/config";
+import { getPlan, planView } from "@/server/data/costs";
 import { getProjectBundle, scenarioInputsFrom } from "@/server/data/projects";
 
 export const metadata = { title: "Deal analysis" };
@@ -13,7 +14,8 @@ export default async function DealPage({ params }: { params: Promise<{ id: strin
   const b = (await getProjectBundle(id))!;
   const t = await getTranslations("deal");
   if (!b.property || !b.deal) return <p className="text-sm text-muted">{t("noDeal")}</p>;
-  const config = await getEffectiveConfig(b.organizationId);
+  const [config, plan] = await Promise.all([getEffectiveConfig(b.organizationId), getPlan(id)]);
+  const { totals: planTotals } = planView(plan);
   const d = b.deal;
   const showActuals = ["purchased", "renovating", "listed", "sold"].includes(b.status) || Boolean(d.actualSalePrice);
   return (
@@ -27,6 +29,7 @@ export default async function DealPage({ params }: { params: Promise<{ id: strin
         manualRisks={b.manualRisks.map((m) => ({ id: m.id, title: m.title, detail: m.detail, severity: m.severity }))}
         org={{ vatDeductible: b.org.vatDeductible, vatDisplay: b.org.vatDisplay }}
         config={config}
+        plan={planTotals.plan.total > 0 ? planTotals.plan : null}
         deal={{
           askingPrice: d.askingPrice,
           offerPrice: d.offerPrice,

@@ -12,6 +12,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as s from "../src/db/schema";
 import { CONFIG_DEFINITIONS } from "../src/lib/config/definitions";
+import { SEED_CATALOGUE, SEED_PRICE_DATE, SEED_SOURCE, type QualityTier } from "../src/lib/costs/seed-catalogue";
+import { tierPrice } from "../src/lib/renovation/estimate";
+import { suggestLines, type RoomType } from "../src/lib/renovation/templates";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool, { schema: s });
@@ -40,6 +43,71 @@ async function seedConfig() {
     );
   }
   console.log(`config: ${missing.length} platform defaults inserted`);
+}
+
+async function seedCostCatalogue() {
+  const existing = await db.select({ code: s.costItem.code }).from(s.costItem).where(isNull(s.costItem.organizationId));
+  const have = new Set(existing.map((e) => e.code));
+  const missing = SEED_CATALOGUE.filter((c) => !have.has(c.code));
+  if (missing.length) {
+    await db.insert(s.costItem).values(
+      missing.map((c) => ({
+        organizationId: null,
+        code: c.code,
+        category: c.category,
+        nameEn: c.nameEn,
+        nameFi: c.nameFi,
+        unit: c.unit,
+        budgetLow: eur(c.budget[0]),
+        budgetHigh: eur(c.budget[1]),
+        midLow: eur(c.mid[0]),
+        midHigh: eur(c.mid[1]),
+        premiumLow: eur(c.premium[0]),
+        premiumHigh: eur(c.premium[1]),
+        laborBps: c.laborPct * 100,
+        certification: c.certification ?? null,
+        needsRenovationNotice: Boolean(c.needsRenovationNotice),
+        priceDate: SEED_PRICE_DATE,
+        source: SEED_SOURCE,
+        notes: c.notes ?? null,
+      })),
+    );
+  }
+  console.log(`cost catalogue: ${missing.length} platform items inserted`);
+}
+
+async function createPlan(orgId: string, projectId: string, buildYear: number, tier: QualityTier, rooms: { type: RoomType; name: string; area: number }[]) {
+  const catalogue = await db.select().from(s.costItem).where(isNull(s.costItem.organizationId));
+  const byCode = new Map(catalogue.map((c) => [c.code, c]));
+  const [plan] = await db.insert(s.renovationPlan).values({ projectId, organizationId: orgId, defaultTier: tier }).returning();
+  for (const [ri, r] of rooms.entries()) {
+    const [room] = await db.insert(s.planRoom).values({ planId: plan.id, organizationId: orgId, roomType: r.type, name: r.name, areaM2: r.area, sortOrder: ri }).returning();
+    const lines = suggestLines(r.type, { areaM2: r.area, tier, buildYear, asbestosBeforeYear: 1994 }).map((l, i) => {
+      const item = byCode.get(l.code)!;
+      const p = tierPrice(item, tier);
+      return {
+        roomId: room.id,
+        planId: plan.id,
+        organizationId: orgId,
+        costItemId: item.id,
+        code: item.code,
+        name: item.nameEn,
+        unit: item.unit,
+        quantity: l.quantity,
+        tier,
+        unitPrice: p.typical,
+        unitPriceLow: p.low,
+        unitPriceHigh: p.high,
+        laborBps: item.laborBps,
+        certification: item.certification,
+        needsRenovationNotice: item.needsRenovationNotice,
+        source: item.source,
+        priceDate: item.priceDate,
+        sortOrder: i,
+      };
+    });
+    if (lines.length) await db.insert(s.planLine).values(lines);
+  }
 }
 
 async function createUser(email: string, name: string, opts: { platformAdmin?: boolean } = {}) {
@@ -200,7 +268,7 @@ async function seedDemo() {
   });
 
   // 2) Porvoo rowhouse — lead with a pipe renovation coming
-  await createProject(orgId, member, {
+  const porvoo = await createProject(orgId, member, {
     name: "Porvoo rivitalo 4h+k+s",
     status: "lead",
     property: {
@@ -322,6 +390,32 @@ async function seedDemo() {
     ],
   });
 
+  // Renovation plans (prices from the provisional catalogue)
+  await createPlan(orgId, helsinki, 1938, "mid", [
+    { type: "kitchen", name: "Kitchen", area: 7.5 },
+    { type: "bathroom", name: "Bathroom", area: 3.8 },
+    { type: "living_room", name: "Living room", area: 19 },
+    { type: "bedroom", name: "Bedroom", area: 11 },
+    { type: "whole_apartment", name: "Whole apartment", area: 48.5 },
+  ]);
+  // Bathroom and sauna are left out on purpose: the housing company's pipe renovation (2028) will redo them.
+  await createPlan(orgId, porvoo, 1979, "budget", [
+    { type: "kitchen", name: "Kitchen", area: 10 },
+    { type: "living_room", name: "Living room", area: 24 },
+    { type: "bedroom", name: "Bedroom 1", area: 12 },
+    { type: "bedroom", name: "Bedroom 2", area: 10 },
+    { type: "bedroom", name: "Bedroom 3", area: 9 },
+    { type: "whole_apartment", name: "Whole apartment", area: 92 },
+  ]);
+  await createPlan(orgId, sold, 1972, "mid", [
+    { type: "kitchen", name: "Kitchen", area: 9 },
+    { type: "living_room", name: "Living room", area: 22 },
+    { type: "bedroom", name: "Bedroom 1", area: 12 },
+    { type: "bedroom", name: "Bedroom 2", area: 10 },
+    { type: "hallway", name: "Hallway", area: 7 },
+    { type: "whole_apartment", name: "Whole apartment", area: 71 },
+  ]);
+
   // Other tenant — used to verify isolation
   await createProject(otherOrg, other, {
     name: "Other tenant's secret flip",
@@ -353,6 +447,7 @@ async function seedDemo() {
 
 async function main() {
   await seedConfig();
+  await seedCostCatalogue();
   const demoExists = await db.select({ id: s.organization.id }).from(s.organization).where(eq(s.organization.slug, "demo-flips"));
   if (demoExists.length === 0 || process.argv.includes("--reset-demo")) await seedDemo();
   else console.log("demo: already present (use --reset-demo to recreate)");

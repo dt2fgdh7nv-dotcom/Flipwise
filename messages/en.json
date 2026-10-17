@@ -417,7 +417,7 @@
     "scenarios": "Scenarios",
     "salePrice": "Sale price (debt-free)",
     "renovationBudget": "Renovation budget",
-    "renovationHintExcl": "Excl. VAT. Becomes the room-by-room plan in phase 2.",
+    "renovationHintExcl": "Excl. VAT. Use the Renovation plan tab to build this from rooms.",
     "contingency": "Contingency",
     "holdingMonths": "Holding period",
     "interestRate": "Interest rate",
@@ -479,7 +479,9 @@
     "taxNoteCompany": "Corporate tax {rate} on profit.",
     "taxNoteIndividual": "Capital income tax {lower} / {upper} above {threshold}.",
     "vatNote": "VAT {rate} is {deductible, select, yes {deducted (workspace setting)} other {added to renovation and agent costs}}.",
-    "noDeal": "No deal numbers yet."
+    "noDeal": "No deal numbers yet.",
+    "planTotal": "Renovation plan: {total} (range {low} – {high})",
+    "usePlan": "Use plan"
   },
   "overview": {
     "summary": "Expected case",
@@ -618,7 +620,7 @@
     "revoked": "Access revoked",
     "expiresOn": "Expires {date}",
     "whatClientsSee": "What clients see",
-    "clientSees": "Property summary, all three scenarios with cost breakdown, risk flags, comments. Later: renovation plan and before/after images you choose to share.",
+    "clientSees": "Property summary, all three scenarios with cost breakdown, renovation plan by room (totals, not unit prices), risk flags and comments. Later: before/after images you choose to share.",
     "clientDoesNotSee": "Your other projects, internal notes, housing-company contact details, settings."
   },
   "invite": {
@@ -731,5 +733,145 @@
     "tenantsHint": "Plan tier is stored for future billing.",
     "projects": "Projects",
     "membersCount": "Members"
+  },
+  "tier": {
+    "budget": "Budget",
+    "mid": "Mid",
+    "premium": "Premium"
+  },
+  "roomType": {
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom",
+    "toilet": "Separate WC",
+    "sauna": "Sauna",
+    "living_room": "Living room",
+    "bedroom": "Bedroom",
+    "hallway": "Hallway",
+    "balcony": "Balcony",
+    "whole_apartment": "Whole apartment"
+  },
+  "costCategory": {
+    "kitchen": "Kitchen",
+    "bathroom": "Bathroom & wet rooms",
+    "flooring": "Flooring",
+    "walls_paint": "Walls & paint",
+    "doors": "Doors",
+    "electrical": "Lighting & electrical",
+    "sauna": "Sauna",
+    "balcony": "Balcony",
+    "general": "General"
+  },
+  "costUnit": {
+    "m2": "m²",
+    "lm": "lm",
+    "pcs": "pcs",
+    "set": "set",
+    "room": "room"
+  },
+  "certification": {
+    "waterproofing": {
+      "label": "Certified waterproofer",
+      "detail": "Wet-room waterproofing must be done by a certified installer (sertifioitu vedeneristäjä) using a tested system, and documented for the housing company."
+    },
+    "electrical": {
+      "label": "Registered electrical contractor",
+      "detail": "Electrical installation work must be done by a contractor registered with Tukes (sähköurakoitsija). Keep the commissioning inspection report (käyttöönottotarkastuspöytäkirja)."
+    },
+    "plumbing": {
+      "label": "Qualified plumber (LVI)",
+      "detail": "Water and drain work affects the whole building; housing companies typically require a qualified LVI installer and may supervise the work."
+    },
+    "asbestos": {
+      "label": "Qualified asbestos surveyor",
+      "detail": "Buildings started before 1994 need an asbestos survey by a qualified surveyor before renovation. Removal requires a licensed asbestos contractor."
+    }
+  },
+  "renovation": {
+    "title": "Renovation plan",
+    "subtitle": "Room-by-room estimate from your cost database. Prices are snapshotted when you add an item.",
+    "tier": "Quality tier",
+    "tierHint": "Changes every line's tier (custom prices are kept).",
+    "total": "Estimated total",
+    "range": "Range {low} – {high}",
+    "labor": "Labour",
+    "materials": "Materials",
+    "inclVat": "incl. VAT {rate}",
+    "exclVat": "excl. VAT",
+    "applyToDeal": "Use in deal scenarios",
+    "applyHint": "Sets the renovation budget of the best / expected / worst case to the low / typical / high end of this plan.",
+    "applied": "Deal scenarios updated: best {best}, expected {expected}, worst {worst}",
+    "dealDiffers": "The deal's expected renovation budget is {deal}; this plan totals {plan}.",
+    "dealMatches": "The deal scenarios use this plan.",
+    "refreshPrices": "Refresh prices from cost database",
+    "refreshed": "{count, plural, one {# line re-priced} other {# lines re-priced}}",
+    "addRoom": "Add room",
+    "roomType": "Room type",
+    "roomName": "Name",
+    "area": "Floor area",
+    "areaHint": "Used to estimate quantities. Leave empty for a typical size.",
+    "includeTypical": "Add typical items for this room",
+    "emptyPlan": "No rooms yet. Add the rooms you'll renovate — FlipWise suggests typical items and quantities you can adjust.",
+    "emptyRoom": "No items in this room.",
+    "addItem": "Add item",
+    "searchItems": "Search the cost database…",
+    "quantity": "Qty",
+    "unitPrice": "Unit price",
+    "lineTotal": "Total",
+    "customPrice": "Custom price",
+    "resetPrice": "Reset to catalogue price",
+    "deleteRoom": "Delete room",
+    "deleteRoomConfirm": "Delete this room and its items?",
+    "professionals": "Professionals required",
+    "professionalsNone": "No certified work in this plan.",
+    "noticeTitle": "Muutostyöilmoitus needed",
+    "noticeBody": "{count, plural, one {# item} other {# items}} in this plan affect wet rooms, plumbing, electrics, ventilation or structures. Notify the housing company in writing before work starts.",
+    "asbestosReminder": "Building from {year}: include an asbestos survey before demolition.",
+    "provisional": "Some prices are provisional FlipWise estimates. Replace them with quotes or your own price list.",
+    "priceSource": "Price source",
+    "certifiedBadge": "Certified",
+    "noticeBadge": "Notice"
+  },
+  "costs": {
+    "title": "Cost database",
+    "subtitle": "Unit prices used by renovation plans, excluding VAT unless your workspace shows prices incl. VAT. Labour vs materials and certification needs per item.",
+    "all": "All",
+    "search": "Search items…",
+    "item": "Item",
+    "unit": "Unit",
+    "labor": "Labour",
+    "scope": {
+      "platform": "FlipWise default",
+      "override": "Your price",
+      "custom": "Your item"
+    },
+    "override": "Set your price",
+    "editItem": "Edit item",
+    "newItem": "New item",
+    "removeOverride": "Use FlipWise default",
+    "deleteItem": "Delete item",
+    "saved": "Prices saved",
+    "code": "Code",
+    "codeHint": "category.item_name, e.g. kitchen.island",
+    "nameEn": "Name (English)",
+    "nameFi": "Name (Finnish)",
+    "category": "Category",
+    "laborPct": "Labour share",
+    "certificationLabel": "Requires certified professional",
+    "none": "None",
+    "needsNotice": "Requires renovation notice (muutostyöilmoitus)",
+    "priceDate": "Price date",
+    "source": "Source",
+    "sourceUrl": "Source URL",
+    "notes": "Notes",
+    "low": "low",
+    "high": "high",
+    "active": "Active",
+    "adminOnly": "Only workspace admins can change prices.",
+    "importCsv": "Import price list (CSV)",
+    "importHint": "Upserts items by code. Prices in euros excluding VAT; use mid_low / mid_high only if your list has one price level.",
+    "exportCsv": "Export CSV",
+    "importDone": "{created} created, {updated} updated",
+    "platformTitle": "Platform cost database",
+    "platformSubtitle": "Default prices for every workspace. Workspaces can override prices for themselves."
   }
 }
