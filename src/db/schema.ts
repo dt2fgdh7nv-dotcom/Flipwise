@@ -571,6 +571,7 @@ export const projectRelations = relations(project, ({ one, many }) => ({
   comments: many(comment),
   manualRisks: many(manualRisk),
   statusEvents: many(projectStatusEvent),
+  renovationPlan: one(renovationPlan, { fields: [project.id], references: [renovationPlan.projectId] }),
 }));
 
 export const propertyRelations = relations(property, ({ one }) => ({
@@ -628,4 +629,162 @@ export const memberRelations = relations(member, ({ one }) => ({
 export const organizationRelations = relations(organization, ({ many }) => ({
   members: many(member),
   projects: many(project),
+}));
+
+/* ------------------------------------------------------------------ */
+/* Renovation cost database & plans (phase 2)                          */
+/* ------------------------------------------------------------------ */
+
+export const costCategory = pgEnum("cost_category", [
+  "kitchen",
+  "bathroom",
+  "flooring",
+  "walls_paint",
+  "doors",
+  "electrical",
+  "sauna",
+  "balcony",
+  "general",
+]);
+export const costUnit = pgEnum("cost_unit", ["m2", "lm", "pcs", "set", "room"]);
+export const qualityTier = pgEnum("quality_tier", ["budget", "mid", "premium"]);
+/** Work that legally or by housing-company rules needs a qualified / certified professional. */
+export const certification = pgEnum("certification", ["waterproofing", "electrical", "plumbing", "asbestos"]);
+
+/**
+ * Cost catalogue. organization_id NULL = platform item (admin-editable).
+ * An org row with base_item_id overrides a platform item's prices for that tenant;
+ * an org row without base_item_id is a tenant's own custom item.
+ * All prices are euro cents per unit, excluding VAT.
+ */
+export const costItem = pgTable(
+  "cost_item",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: text("organization_id").references(() => organization.id, { onDelete: "cascade" }),
+    baseItemId: uuid("base_item_id"),
+    code: text("code").notNull(),
+    category: costCategory("category").notNull(),
+    nameEn: text("name_en").notNull(),
+    nameFi: text("name_fi"),
+    unit: costUnit("unit").notNull(),
+    budgetLow: cents("budget_low").notNull(),
+    budgetHigh: cents("budget_high").notNull(),
+    midLow: cents("mid_low").notNull(),
+    midHigh: cents("mid_high").notNull(),
+    premiumLow: cents("premium_low").notNull(),
+    premiumHigh: cents("premium_high").notNull(),
+    laborBps: integer("labor_bps").notNull(),
+    certification: certification("certification"),
+    needsRenovationNotice: boolean("needs_renovation_notice").notNull().default(false),
+    priceDate: date("price_date").notNull(),
+    source: text("source").notNull(),
+    sourceUrl: text("source_url"),
+    notes: text("notes"),
+    active: boolean("active").notNull().default(true),
+    updatedBy: text("updated_by").references(() => user.id, { onDelete: "set null" }),
+    ...timestamps,
+  },
+  (t) => [
+    uniqueIndex("cost_item_platform_code_uq").on(t.code).where(sql`${t.organizationId} is null`),
+    uniqueIndex("cost_item_org_code_uq").on(t.organizationId, t.code).where(sql`${t.organizationId} is not null`),
+    index("cost_item_org_idx").on(t.organizationId),
+  ],
+);
+
+export const roomType = pgEnum("room_type", [
+  "kitchen",
+  "bathroom",
+  "toilet",
+  "sauna",
+  "living_room",
+  "bedroom",
+  "hallway",
+  "balcony",
+  "whole_apartment",
+]);
+
+export const renovationPlan = pgTable("renovation_plan", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projectId: uuid("project_id")
+    .notNull()
+    .unique()
+    .references(() => project.id, { onDelete: "cascade" }),
+  organizationId: text("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
+  defaultTier: qualityTier("default_tier").notNull().default("mid"),
+  notes: text("notes"),
+  ...timestamps,
+});
+
+export const planRoom = pgTable(
+  "plan_room",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    planId: uuid("plan_id")
+      .notNull()
+      .references(() => renovationPlan.id, { onDelete: "cascade" }),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    roomType: roomType("room_type").notNull(),
+    name: text("name").notNull(),
+    areaM2: numeric("area_m2", { precision: 7, scale: 1, mode: "number" }),
+    sortOrder: integer("sort_order").notNull().default(0),
+    ...timestamps,
+  },
+  (t) => [index("plan_room_plan_idx").on(t.planId)],
+);
+
+/** A priced line. Prices are snapshotted from the catalogue so later catalogue edits don't silently change a plan. */
+export const planLine = pgTable(
+  "plan_line",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    roomId: uuid("room_id")
+      .notNull()
+      .references(() => planRoom.id, { onDelete: "cascade" }),
+    planId: uuid("plan_id")
+      .notNull()
+      .references(() => renovationPlan.id, { onDelete: "cascade" }),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    costItemId: uuid("cost_item_id").references(() => costItem.id, { onDelete: "set null" }),
+    code: text("code"),
+    name: text("name").notNull(),
+    unit: costUnit("unit").notNull(),
+    quantity: numeric("quantity", { precision: 10, scale: 2, mode: "number" }).notNull(),
+    tier: qualityTier("tier").notNull(),
+    unitPrice: cents("unit_price").notNull(),
+    unitPriceLow: cents("unit_price_low").notNull(),
+    unitPriceHigh: cents("unit_price_high").notNull(),
+    priceOverridden: boolean("price_overridden").notNull().default(false),
+    laborBps: integer("labor_bps").notNull(),
+    certification: certification("certification"),
+    needsRenovationNotice: boolean("needs_renovation_notice").notNull().default(false),
+    source: text("source").notNull(),
+    priceDate: date("price_date"),
+    notes: text("notes"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    ...timestamps,
+  },
+  (t) => [index("plan_line_room_idx").on(t.roomId), index("plan_line_plan_idx").on(t.planId)],
+);
+
+export const renovationPlanRelations = relations(renovationPlan, ({ one, many }) => ({
+  project: one(project, { fields: [renovationPlan.projectId], references: [project.id] }),
+  rooms: many(planRoom),
+  lines: many(planLine),
+}));
+
+export const planRoomRelations = relations(planRoom, ({ one, many }) => ({
+  plan: one(renovationPlan, { fields: [planRoom.planId], references: [renovationPlan.id] }),
+  lines: many(planLine),
+}));
+
+export const planLineRelations = relations(planLine, ({ one }) => ({
+  room: one(planRoom, { fields: [planLine.roomId], references: [planRoom.id] }),
+  plan: one(renovationPlan, { fields: [planLine.planId], references: [renovationPlan.id] }),
 }));
