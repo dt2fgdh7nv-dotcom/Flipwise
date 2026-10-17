@@ -8,16 +8,14 @@ import "dotenv/config";
 import { createHash, randomBytes } from "node:crypto";
 import { hashPassword } from "better-auth/crypto";
 import { eq, inArray, isNull } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { createDb } from "../src/db/client";
 import * as s from "../src/db/schema";
 import { CONFIG_DEFINITIONS } from "../src/lib/config/definitions";
 import { SEED_CATALOGUE, SEED_PRICE_DATE, SEED_SOURCE, type QualityTier } from "../src/lib/costs/seed-catalogue";
 import { tierPrice } from "../src/lib/renovation/estimate";
 import { suggestLines, type RoomType } from "../src/lib/renovation/templates";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const db = drizzle(pool, { schema: s });
+const { db, close } = createDb();
 
 const eur = (v: number) => Math.round(v * 100);
 const id = () => randomBytes(12).toString("base64url");
@@ -451,7 +449,7 @@ async function main() {
   const demoExists = await db.select({ id: s.organization.id }).from(s.organization).where(eq(s.organization.slug, "demo-flips"));
   if (demoExists.length === 0 || process.argv.includes("--reset-demo")) await seedDemo();
   else console.log("demo: already present (use --reset-demo to recreate)");
-  await pool.end();
+  await close();
   console.log(`\nDemo logins (password: ${DEMO_PASSWORD}):
   demo@flipwise.fi    owner, Demo Flips Oy
   tuomas@flipwise.fi  member, Demo Flips Oy
@@ -462,6 +460,6 @@ async function main() {
 
 main().catch(async (e) => {
   console.error(e);
-  await pool.end();
+  await close();
   process.exit(1);
 });

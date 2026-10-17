@@ -45,3 +45,6 @@ e2e/.auth/
 # playwright
 /test-results/
 /playwright-report/
+
+# local embedded database
+/.data/

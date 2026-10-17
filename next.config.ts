@@ -13,6 +13,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // The app is almost entirely per-user, authenticated pages, so it uses dynamic rendering
   // rather than Cache Components.
+  // Embedded database (PGlite) ships WebAssembly files that must not be bundled.
+  serverExternalPackages: ["@electric-sql/pglite"],
   turbopack: {
     rules: {
       "*.css": {

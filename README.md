@@ -17,14 +17,21 @@ Analyse, plan and manage apartment (kerrostalo) and rowhouse (rivitalo) flips in
 
 ## Getting started
 
+**Not a developer?** See [GETTING-STARTED.md](GETTING-STARTED.md): install Node.js, then double-click
+`start-windows.bat` or `start-mac.command`.
+
+Developers:
+
 ```bash
 pnpm install
-docker compose up -d            # or point DATABASE_URL at any Postgres 16
-cp .env.example .env            # set BETTER_AUTH_SECRET
-pnpm db:migrate
-pnpm db:seed                    # platform config + demo data (pnpm db:reset-demo to recreate)
+pnpm run bootstrap              # creates .env, applies migrations, seeds config + demo data
 pnpm dev                        # http://localhost:3000
 ```
+
+By default the app uses an **embedded PostgreSQL (PGlite)** stored in `.data/` — no database to install.
+Set `DATABASE_URL=postgres://…` in `.env` to use a real PostgreSQL instead (`docker compose up -d` starts one
+locally); production always uses PostgreSQL. The embedded database must only be opened by one process at a time,
+so stop the app before running `pnpm db:seed` / `pnpm db:reset-demo` against it.
 
 Demo logins (password `flipwise-demo-2026`):
 
@@ -42,7 +49,8 @@ In development, emails (magic links, invites, password resets) are captured at *
 
 | Script | |
 |---|---|
-| `pnpm test` | Unit + integration tests (integration tests need the seeded DB) |
+| `pnpm run bootstrap` | One-step local setup (safe to repeat) |
+| `pnpm test` | Unit + integration tests (integration tests need a seeded PostgreSQL via `DATABASE_URL`) |
 | `pnpm test:e2e` | Playwright smoke tests against a running app (`pnpm build && pnpm start` first). Set `PLAYWRIGHT_CHROMIUM_PATH` to use a preinstalled Chromium. |
 | `pnpm typecheck` / `pnpm lint` | |
 | `pnpm db:generate` | Generate a migration after editing `src/db/schema.ts` |
